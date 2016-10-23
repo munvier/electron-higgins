@@ -20,7 +20,8 @@ puis, revenir au dossier racine du repo, et ensuite,
     npm start
 
 ## TODO
-
+ - Implémenter https://github.com/lorenwest/node-config
+ - Gérer les filesystems unix
  - Save d'un fichier de config user
  - Liste récursive des fichiers vidéos
  - Sélecteur de sous titres via addic7ed v1, voire d'autres parses / api en v2
