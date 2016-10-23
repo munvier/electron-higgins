@@ -1,0 +1,433 @@
+/**
+* GLOBAL
+* -----------------------------------------------------------------------------
+*/
+* {
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+html {
+    font-size: 16px;
+}
+body {
+    background: #FEFEFE;
+    color: #333333;
+    font-size: 100%;
+    font-weight: 300;
+    line-height: 1.3;
+    /**/
+    -webkit-font-smoothing: antialiased;
+}
+/**
+* TEXT SELECT
+* -----------------------------------------------------------------------------
+*/
+::-moz-selection {
+    background: #2AC4F4;
+    color: #FEFEFE;
+    text-shadow: none;
+}
+::selection {
+    background: #2AC4F4;
+    color: #FEFEFE;
+    text-shadow: none;
+}
+::-moz-selection {
+    background: #2AC4F4;
+    color: #FEFEFE;
+    text-shadow: none;
+}
+/**
+* CLEARFIX
+* -----------------------------------------------------------------------------
+*/
+.clearfix:after {
+    clear: both;
+    content: " ";
+    display: block;
+    font-size: 0;
+    height: 0;
+    visibility: hidden;
+}
+.clearfix {
+    display: inline-block;
+}
+* html .clearfix {
+    height: 1%;
+}
+.clearfix {
+    display: block;
+}
+/**
+* ELEMENTS
+* -----------------------------------------------------------------------------
+*/
+p {
+    margin: 0 0 15px;
+}
+ul {
+    list-style: disc outside;
+    margin: 0 0 15px;
+    padding: 0 0 0 15px;
+}
+ol {
+    list-style: outside decimal;
+    margin: 0 0 15px 20px;
+    padding: 0;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+em {
+    font-style: italic;
+}
+strong {
+    font-weight: bold;
+}
+a:link {
+    color: #2AC4F4;
+    font-weight: 600;
+    text-decoration: underline;
+}
+a:visited {
+    color: #2AC4F4;
+    font-weight: 300;
+}
+a:hover,a:active,a:focus {
+    text-decoration: none;
+}
+::-webkit-input-placeholder {
+    opacity:1;
+}
+:-moz-placeholder {
+    opacity:1;
+}
+::-moz-placeholder {
+    opacity:1;
+}
+:-ms-input-placeholder {
+    opacity:1;
+}
+/**
+* GENERAL
+* -----------------------------------------------------------------------------
+*/
+h1 {
+    text-align: center;
+}
+
+/*-------------------------
+    File manager
+-------------------------*/
+
+
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: #23232e;
+    font: 14px normal Arial,Helvetica,sans-serif;
+    z-index: -4;
+}
+.filemanager {
+    margin: 100px auto 50px;
+    max-width: 1340px;
+    position: relative;
+    width: 95%;
+}
+@media all and (max-width: 965px) {
+    .filemanager {
+        margin: 30px auto 0;
+        padding: 1px;
+    }
+}
+.filemanager .tools {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 35px;
+}
+.filemanager .breadcrumbs {
+    cursor:pointer;
+    float:left;
+    width:80%;
+}
+.filemanager .filters {
+    cursor:pointer;
+    float:left;
+    text-align:right;
+    width:20%;
+}
+.filemanager .filters .videoFilter{
+    background-color: #373743;
+    color:#23232e;
+    border-radius: 3px;
+    float:right;
+    line-height: 24px;
+    padding: 6px 8px;
+    text-align:center;
+}
+.filemanager .filters .videoFilter.active{
+    color:#fff;
+}
+.filemanager .breadcrumbs a:link, .breadcrumbs a:visited {
+    color: #ffffff;
+    text-decoration: none;
+}
+.filemanager .breadcrumbs a:hover {
+    text-decoration: underline;
+}
+.filemanager .breadcrumbs .arrow {
+    color: #6a6a72;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 20px;
+}
+:-moz-placeholder {
+    color: #4d535e;
+    opacity: 1;
+}
+*::-moz-placeholder {
+    color: #4d535e;
+    opacity: 1;
+}
+.filemanager .data {
+    margin-top: 60px;
+    z-index: -3;
+}
+.filemanager .data.animated {
+    animation: 700ms ease 0s normal none 1 running showSlowlyElement;
+}
+.filemanager .data li {
+    background-color: #373743;
+    border-radius: 3px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    height: 50px;
+    list-style-type: none;
+    margin: 0 5px;
+    overflow: hidden;
+    padding: 5px;
+    position: relative;
+    transition: background-color 0.3s ease 0s;
+    width: 100%;
+    z-index: 1;
+}
+.filemanager .data li:hover {
+    background-color: #42424e;
+}
+.filemanager .data li a {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    text-decoration: none;
+    top: 0;
+    width: 100%;
+}
+.filemanager .data li .name {
+    color: #ffffff;
+    display: inline-block;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: calc(100% - 65px);
+}
+.filemanager .data li .details {
+    color: #b6c1c9;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 400;
+    height: 10px;
+    position: absolute;
+    top: 64px;
+    white-space: nowrap;
+    width: 55px;
+}
+.filemanager .nothingfound {
+    animation: 700ms ease 0s normal none 1 running showSlowlyElement;
+    background-color: #373743;
+    display: none;
+    font-family: Arial;
+    height: 21em;
+    margin: 0 auto;
+    width: 23em;
+}
+.filemanager .nothingfound .nofiles {
+    background-color: #d72f6e;
+    border-radius: 50%;
+    height: 11em;
+    line-height: 11.4em;
+    margin: 30px auto;
+    position: relative;
+    top: 3em;
+    width: 11em;
+}
+.filemanager .nothingfound .nofiles::after {
+    color: #ffffff;
+    content: "×";
+    font-size: 14em;
+    margin-right: 0.092em;
+    position: absolute;
+    right: 0;
+}
+.filemanager .nothingfound span {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    height: 13px;
+    line-height: 20px;
+    margin: 0 auto auto 6.8em;
+    position: relative;
+    top: 2em;
+}
+@media all and (max-width: 965px) {
+    .filemanager .data li {
+        margin: 5px 0;
+        width: 100%;
+    }
+}
+@keyframes showSlowlyElement {
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    0% {
+        opacity: 0;
+        transform: scale(1.2);
+    }
+}
+@keyframes showSlowlyElement {
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    0% {
+        opacity: 0;
+        transform: scale(1.2);
+    }
+}
+.icon {
+    font-size: 10px;
+}
+.icon.folder {
+    background-color: transparent;
+    display: inline-block;
+    margin: 1em;
+    overflow: hidden;
+}
+.icon.folder::before {
+    background-color: #7ba1ad;
+    border-top-left-radius: 0.1em;
+    border-top-right-radius: 0.1em;
+    box-shadow: 1.25em 0.25em 0 0 #7ba1ad;
+    content: "";
+    float: left;
+    height: 0.45em;
+    margin-bottom: -0.07em;
+    margin-left: 0.07em;
+    width: 1.5em;
+}
+.icon.folder::after {
+    background-color: #a0d4e4;
+    border-radius: 0.1em;
+    clear: left;
+    content: "";
+    float: left;
+    height: 2.25em;
+    width: 3em;
+}
+.icon.folder.full::before {
+    height: 0.55em;
+}
+.icon.folder.full::after {
+    box-shadow: 0 -0.12em 0 0 #ffffff;
+    height: 2.15em;
+}
+.icon.file {
+    border-radius: 0.25em;
+    box-shadow: 1.74em -2.1em 0 0 #a4a7ac inset;
+    color: #fff;
+    display: inline-block;
+    height: 3em;
+    line-height: 3em;
+    margin: 0.9em 1.2em 0.8em 1.3em;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    width: 2.5em;
+}
+.icon.file::first-line {
+    font-size: 13px;
+    font-weight: 700;
+}
+.icon.file::after {
+    border-bottom: 2.6em solid #dadde1;
+    border-right: 2.22em solid rgba(0, 0, 0, 0);
+    border-width: 0 2.22em 2.6em 0;
+    content: "";
+    position: absolute;
+    right: -4px;
+    top: -34.5px;
+    z-index: -1;
+}
+.icon.file.f-avi, .icon.file.f-flv, .icon.file.f-mkv, .icon.file.f-mov, .icon.file.f-mpeg, .icon.file.f-mpg, .icon.file.f-mp4, .icon.file.f-m4v, .icon.file.f-wmv {
+    box-shadow: 1.74em -2.1em 0 0 #7e70ee inset;
+}
+.icon.file.f-avi::after, .icon.file.f-flv::after, .icon.file.f-mkv::after, .icon.file.f-mov::after, .icon.file.f-mpeg::after, .icon.file.f-mpg::after, .icon.file.f-mp4::after, .icon.file.f-m4v::after, .icon.file.f-wmv::after {
+    border-bottom-color: #5649c1;
+}
+.icon.file.f-mp2, .icon.file.f-mp3, .icon.file.f-m3u, .icon.file.f-wma, .icon.file.f-xls, .icon.file.f-xlsx {
+    box-shadow: 1.74em -2.1em 0 0 #5bab6e inset;
+}
+.icon.file.f-mp2::after, .icon.file.f-mp3::after, .icon.file.f-m3u::after, .icon.file.f-wma::after, .icon.file.f-xls::after, .icon.file.f-xlsx::after {
+    border-bottom-color: #448353;
+}
+.icon.file.f-doc, .icon.file.f-docx, .icon.file.f-psd {
+    box-shadow: 1.74em -2.1em 0 0 #03689b inset;
+}
+.icon.file.f-doc::after, .icon.file.f-docx::after, .icon.file.f-psd::after {
+    border-bottom-color: #2980b9;
+}
+.icon.file.f-gif, .icon.file.f-jpg, .icon.file.f-jpeg, .icon.file.f-pdf, .icon.file.f-png {
+    box-shadow: 1.74em -2.1em 0 0 #e15955 inset;
+}
+.icon.file.f-gif::after, .icon.file.f-jpg::after, .icon.file.f-jpeg::after, .icon.file.f-pdf::after, .icon.file.f-png::after {
+    border-bottom-color: #c6393f;
+}
+.icon.file.f-deb, .icon.file.f-dmg, .icon.file.f-gz, .icon.file.f-rar, .icon.file.f-zip, .icon.file.f-7z {
+    box-shadow: 1.74em -2.1em 0 0 #867c75 inset;
+}
+.icon.file.f-deb::after, .icon.file.f-dmg::after, .icon.file.f-gz::after, .icon.file.f-rar::after, .icon.file.f-zip::after, .icon.file.f-7z::after {
+    border-bottom-color: #685f58;
+}
+.icon.file.f-html, .icon.file.f-rtf, .icon.file.f-xml, .icon.file.f-xhtml {
+    box-shadow: 1.74em -2.1em 0 0 #a94bb7 inset;
+}
+.icon.file.f-html::after, .icon.file.f-rtf::after, .icon.file.f-xml::after, .icon.file.f-xhtml::after {
+    border-bottom-color: #d65de8;
+}
+.icon.file.f-js {
+    box-shadow: 1.74em -2.1em 0 0 #d0c54d inset;
+}
+.icon.file.f-js::after {
+    border-bottom-color: #a69f4e;
+}
+.icon.file.f-css, .icon.file.f-saas, .icon.file.f-scss {
+    box-shadow: 1.74em -2.1em 0 0 #44afa6 inset;
+}
+.icon.file.f-css::after, .icon.file.f-saas::after, .icon.file.f-scss::after {
+    border-bottom-color: #30837c;
+}

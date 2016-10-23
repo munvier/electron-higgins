@@ -1,0 +1,35 @@
+<div class="filemanager">
+
+    <div class="tools clearfix">
+        <div class="breadcrumbs">
+            {{#each data.explodedPath}}
+            {{#if this.name}}
+            {{#if @last}}
+            <span data-path="{{this.path}}" class="folderName">{{this.name}}</span>
+            {{else}}
+            <a href="files"><span data-path="{{this.path}}" class="folderName">{{this.name}}</span></a>
+            <span class="arrow">→</span>
+            {{/if}}
+            {{/if}}
+            {{/each}}
+        </div>
+        <div class="filters">
+            <div class="videoFilter {{#if data.isfilterVideoActive}}active{{/if}}">
+                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+            </div>
+        </div>
+    </div>
+
+    <ul class="data">
+        {{#each items}}
+        {{#unless this.hidden}}
+        <li class="{{#if this.is_dir}}folder{{else}}file{{/if}}">
+            <a data-path="{{this.fPath}}" title="{{this.file}}" class="{{#if this.is_dir}}folder{{else}}file{{/if}}">
+                <span class="icon {{#if this.is_dir}}folder{{else}}file{{/if}} full"></span>
+                <span class="name">{{this.file}}</span>
+            </a>
+        </li>
+        {{/unless}}
+        {{/each}}
+    </ul>
+</div>
