@@ -6,6 +6,10 @@ var koaRouter = require('koa-router');
 var bodyParser = require('koa-bodyparser');
 var formParser = require('co-busboy');
 
+var request = require('co-request');
+var cheerio = require('cheerio');
+var Entities  = require('html-entities').AllHtmlEntities;
+
 var Tools = require('./tools');
 var FilePath = require('./fileMap').filePath;
 var FileManager = require('./fileManager');
@@ -20,6 +24,37 @@ router.get('/api/(.*)', Tools.loadRealPath, Tools.checkPathExists, function * ()
     else {
         //this.body = yield fs.createReadStream(p);
         this.body = origFs.createReadStream(this.request.fPath);
+    }
+});
+
+router.get('/subtitles/:showName/:season/:episode', function * (next) {
+    var url = 'http://www.addic7ed.com/serie/' + decodeURIComponent(this.params.showName) + '/' + decodeURIComponent(this.params.season) + '/' + decodeURIComponent(this.params.episode) + '/8',
+        options = {
+            uri: url,
+            headers: {
+                'User-Agent':   'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:49.0) Gecko/20100101 Firefox/49.0',
+                'Accept'        : 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'Connection'    : 'keep-alive',
+                'Host'          : 'www.addic7ed.com'
+            }
+        };
+
+    var result = yield request(url);
+
+    if (result.body){
+        var $ = cheerio.load(result.body),
+            data = [];
+
+        $('a.buttonDownload').each(function(index, node){
+            data.push({
+                link : $(this).attr('href'),
+                text : $(this).text(),
+                version : $(this).parents('.tabel95').find('td.NewsTitle').text().replace(', 0.00 MBs ', ''),
+                help : $(this).parents('.tabel95').find('td.newsDate').first().text().trim()
+            });
+        });
+
+        this.body = JSON.stringify(data, null, 4);
     }
 });
 
