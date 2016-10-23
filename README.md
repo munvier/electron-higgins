@@ -18,3 +18,12 @@
 puis, revenir au dossier racine du repo, et ensuite,
 
     npm start
+
+## TODO
+
+ - Save d'un fichier de config user
+ - Liste récursive des fichiers vidéos
+ - Sélecteur de sous titres via addic7ed v1, voire d'autres parses / api en v2
+
+## DevLog
+    23/10 Structure en place, accueil dégueu mais vue fichiers fonctionnelle
