@@ -1,13 +1,15 @@
 # electron-higgins
 
 ## Stack
-App Electron
-Proxy NodeJs
-Front Backbone.js / Marionnette v3
+
+ - App Electron 
+ - Proxy NodeJs 
+ - Front Backbone.js / Marionnette v3
 
 ## Inspiré par 
-https://github.com/efeiefei/node-file-manager
-http://demo.tutorialzine.com/2014/09/cute-file-browser-jquery-ajax-php/
+
+ - https://github.com/efeiefei/node-file-manager
+ - http://demo.tutorialzine.com/2014/09/cute-file-browser-jquery-ajax-php/
 
 ## Instructions
 
