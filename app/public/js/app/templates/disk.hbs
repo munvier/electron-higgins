@@ -26,13 +26,14 @@ l<div class="filemanager">
         {{#each items}}
         {{#unless this.hidden}}
         <li class="{{#if this.is_dir}}folder{{else}}file{{/if}}">
-            <a data-cid="{{this.cid}}" data-path="{{this.fPath}}" title="{{this.file}}" class="{{#if this.is_dir}}folder{{else}}file{{/if}}">
+            <a {{#if this.is_file}}data-cid="{{this.cid}}"{{/if}}
+                data-path="{{this.fPath}}" title="{{this.file}}" class="{{#if this.is_dir}}folder{{else}}file{{/if}}">
                 <span class="icon {{#if this.is_dir}}folder{{else}}file{{/if}} full"></span>
                 <span class="name">{{this.file}}</span>
-                {{#if this.serie}}
+                {{#if this.showname}}
                 <div class="info">
                     <div class="show-name">
-                        <strong>{{this.serie}}</strong>
+                        <strong>{{this.showname}}</strong>
                     </div>
                     <div class="episode-info">
                         S<strong>{{pad this.season 2 "0"}}</strong>E<strong>{{pad this.episode 2 "0"}}</strong>
@@ -40,6 +41,19 @@ l<div class="filemanager">
                 </div>
                 {{/if}}
             </a>
+            
+            {{#if this.subtitles}}
+            <ul class="subtitles">
+                {{#each this.subtitles}}
+                <li>
+                    <a class="subtitle clearfix">
+                        <div class="pull-left">{{this.version}}</div>
+                        <div class="pull-right"><small>{{this.help}}</small></div>
+                    </a>
+                </li>
+                {{/each}}
+            </ul>
+            {{/if}}
         </li>
         {{/unless}}
         {{/each}}

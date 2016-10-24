@@ -10,6 +10,7 @@ define("views/disk", function (require) {
         ui: {
             'breadcrumb': 'span.folderName',
             'folder': 'a.folder',
+            'file': 'a.file',
             'textFilter': 'input.textFilter',
             'videoFilter': 'div.videoFilter'
         },
@@ -17,15 +18,23 @@ define("views/disk", function (require) {
             'click @ui.breadcrumb': 'setPathAndRefreshCollection',
             'click @ui.folder': 'setPathAndRefreshCollection',
             'click @ui.videoFilter': 'handleVideoFilter',
+            'click @ui.file' : 'getSubtitlesVersions',
             'keyup @ui.textFilter': 'setFilterAndRefreshCollection'
         },
         initialize: function () {
-            this.uiChannel = Radio.channel('ui:disk');
-            this.channel = Radio.channel("Disk");
-            this.uiChannel.on('setPath', this.setPathAndRefreshCollection.bind(this));
             this.data = {};
             this.path = this.collection.getPath();
             this.filterText = "";
+            
+            this.initChannels();
+        },
+        initChannels: function () {
+            this.diskChannel = Radio.channel("Disk");
+            
+            this.subtitlesChannel = Radio.channel("Subtitles");
+            
+            this.uiChannel = Radio.channel('ui:disk');
+            this.uiChannel.on('setPath', this.setPathAndRefreshCollection.bind(this));
         },
         setFilterAndRefreshCollection: function (e) {
             var $input = $(e.currentTarget),
@@ -82,14 +91,40 @@ define("views/disk", function (require) {
                 return;
             }
 
-            $.when(this.channel.request('getDiskItems', path))
-                    .then(function (DiskItemsCollection) {
-                        that.collection = DiskItemsCollection;
-                        that.path = path;
-                        that.render();
-                    });
+            this.diskChannel
+                .request('getDiskItems', path)
+                .then(function (DiskItemsCollection) {
+                    that.collection = DiskItemsCollection;
+                    that.path = path;
+                    that.render();
+                });
         },
-        serializeData: function () {
+        getSubtitlesVersions : function (e) {
+            e.preventDefault();
+            
+            var that = this,
+                $file = $(e.currentTarget),
+                cid = $file.data('cid'),
+                file;
+        
+            if (!cid) {
+                return;
+            }
+            
+            file = this.collection.get(cid);
+            
+            this.subtitlesChannel
+                .request('getSubtitles', {
+                    showname : file.get('showname'),
+                    season : file.get('season'),
+                    episode : file.get('episode')
+                }).then(function(subtitlesCollection){
+                    file.set('subtitles', subtitlesCollection.toJSON());
+                    that.render();
+                });
+        },
+        
+        serializeData : function () {
             var that = this,
                 fullPath = "";
 
@@ -98,7 +133,7 @@ define("views/disk", function (require) {
             
             this.data.path = this.path;
             this.data.explodedPath = [];
-
+            
             this.data.path.split('\\').forEach(function (value) {
                 if (value) {
                     fullPath += value + "\\";

@@ -214,24 +214,23 @@ body {
     box-sizing: border-box;
     cursor: pointer;
     display: inline-block;
-    height: 50px;
     list-style-type: none;
-    overflow: hidden;
+    margin: 0 0 5px;
     padding: 5px;
     position: relative;
     transition: background-color 0.3s ease 0s;
     width: 100%;
     z-index: 1;
 }
-.filemanager .data li:hover {
+.filemanager .data li a:hover {
     background-color: #42424e;
 }
 .filemanager .data li a {
-    height: 100%;
-    left: 0;
-    position: absolute;
+    border-radius: 3px;
+    display: block;
+    height: 50px;
+    padding:5px 0;
     text-decoration: none;
-    top: 0;
     width: 100%;
 }
 .filemanager .data li .name {
@@ -240,6 +239,7 @@ body {
     font-size: 15px;
     font-weight: 700;
     line-height: 40px;
+    height: 40px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -250,8 +250,8 @@ body {
     float: right;
     font-size: 14px;
     line-height: 21px;
-    padding: 5px 20px 5px 0;
-    height: 50px;
+    padding: 0px 20px;
+    height: 40px;
     text-align: right;
 }
 .filemanager .data li .episode-info{
@@ -271,6 +271,26 @@ body {
     top: 64px;
     white-space: nowrap;
     width: 55px;
+}
+.filemanager .data li .subtitles {
+    margin:10px 0 0;
+    padding:0;
+}
+.filemanager .data .file .subtitles li {
+    height: auto;
+    margin: 0;
+    padding: 0 5px;
+}
+.filemanager .data .file .subtitles li .subtitle {
+    background-color: #42424e;
+    color:white;
+    font-size: 13px;
+    font-weight: 400;
+    height:auto;
+    padding:5px;
+}
+.filemanager .data .file .subtitles li .subtitle:hover {
+    background-color: #54545f;
 }
 .filemanager .nothingfound {
     animation: 700ms ease 0s normal none 1 running showSlowlyElement;
@@ -341,7 +361,7 @@ body {
 .icon.folder {
     background-color: transparent;
     display: inline-block;
-    margin: 1em;
+    margin: 7px;
     overflow: hidden;
 }
 .icon.folder::before {
@@ -377,13 +397,13 @@ body {
     box-shadow: 1.74em -2.1em 0 0 #a4a7ac inset;
     color: #fff;
     display: inline-block;
-    height: 3em;
-    line-height: 3em;
-    margin: 0.9em 1.2em 0.8em 1.3em;
+    height: 27px;
+    line-height: 27px;
+    margin: 7px;
     overflow: hidden;
     position: relative;
     text-align: center;
-    width: 2.5em;
+    width: 30px;
 }
 .icon.file::first-line {
     font-size: 13px;

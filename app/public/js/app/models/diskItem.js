@@ -3,15 +3,19 @@ define("models/diskItem", function (require) {
     var Backbone = require("backbone"),
         Config = require("config"),
         diskItem;
+        
     diskItem = Backbone.Model.extend({
         initialize: function () {
+            this.checkIfFileIsTvShow();
+        },
+        
+        checkIfFileIsTvShow : function () {
             var file,
                 cleanSerieName,
                 filenameRegex = /(.*)((S{1}\d{2}|\d{1,2}x)e?(\d{2}).+\.(avi|mkv|mpg|mp4)+)/i,
                 perfectFilenameRegex = /.*((.+)S(\d{2})e(\d{2}).+([hx]264|x265|xvid)[\-.](.+)\.(avi|mkv|mpg|mp4)+)$/i,
                 seasonRegex = /(S(\d{2})|(\d{1,2})x)/i,
                 episodeRegex = /[xE](\d+)[ \.]/i;
-        
         
             if (this.get('is_file') && this.get('file').match(filenameRegex)
                     && this.get('file').match(seasonRegex)
@@ -22,16 +26,10 @@ define("models/diskItem", function (require) {
                 file = {
                     cid : this.cid,
                     filename: this.get('file').match(filenameRegex)[2],
-                    serie: cleanSerieName,
+                    showname: cleanSerieName,
                     season: parseInt(this.get('file').match(filenameRegex)[3].replace(/[^\d+]/i, ' ').trim()),
                     episode: parseInt(this.get('file').match(filenameRegex)[4]),
                 };
-
-                file.linkAddicted = Config.addicted_fr_lang_id + '/'
-                        + cleanSerieName
-                        + '/' + file.season
-                        + '/' + file.episode
-                        + '/' + Config.addicted_fr_lang_id
 
                 if (this.get('file').match(perfectFilenameRegex)) {
                     file.team = this.get('file').match(perfectFilenameRegex)[6];
@@ -40,6 +38,10 @@ define("models/diskItem", function (require) {
 
                 this.set(file);
             }
+        },
+
+        toJSON : function () {
+            return JSON.parse(JSON.stringify(this.attributes));
         }
     });
     

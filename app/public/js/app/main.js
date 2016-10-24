@@ -8,7 +8,8 @@ require.config({
         jquery: "/bower_components/jquery/dist/jquery.min",
         marionette: "/bower_components/backbone.marionette/lib/backbone.marionette.min",
         text: "/bower_components/requirejs-text/text",
-        underscore: "/bower_components/underscore/underscore-min"
+        underscore: "/bower_components/underscore/underscore-min",
+        config: "/js/app/config/config"
     },
     shim: {
         backbone: {

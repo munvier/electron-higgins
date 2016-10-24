@@ -16,7 +16,7 @@ var FileManager = require('./fileManager');
 
 var router = new koaRouter();
 
-router.get('/api/(.*)', Tools.loadRealPath, Tools.checkPathExists, function * () {
+router.get('/api/getFilesListbyPath/(.*)', Tools.loadRealPath, Tools.checkPathExists, function * () {
     var stats = yield fs.stat(this.request.fPath);
     if (stats.isDirectory()) {
         this.body = yield * FileManager.list(this.request.fPath);
@@ -27,8 +27,8 @@ router.get('/api/(.*)', Tools.loadRealPath, Tools.checkPathExists, function * ()
     }
 });
 
-router.get('/subtitles/:showName/:season/:episode', function * (next) {
-    var url = 'http://www.addic7ed.com/serie/' + decodeURIComponent(this.params.showName) + '/' + decodeURIComponent(this.params.season) + '/' + decodeURIComponent(this.params.episode) + '/8',
+router.get('/api/subtitles/(.*)/(.*)/(.*)/(.*)', function * (next) {
+    var url = 'http://www.addic7ed.com/serie/' + this.params[0] + '/' + this.params[1] + '/' + this.params[2] + '/' + this.params[3],
         options = {
             uri: url,
             headers: {
@@ -39,7 +39,7 @@ router.get('/subtitles/:showName/:season/:episode', function * (next) {
             }
         };
 
-    var result = yield request(url);
+    var result = yield request(options);
 
     if (result.body){
         var $ = cheerio.load(result.body),

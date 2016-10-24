@@ -1,10 +1,11 @@
 define("controllers/disk", function(require) {
     "use strict";
 
-    var Marionette  = require("marionette"),
-        Radio       = require("backbone.radio"),
-        DiskRadio   = require("radios/disk"),
-        DiskView    = require("views/disk"),
+    var Marionette      = require("marionette"),
+        Radio           = require("backbone.radio"),
+        DiskRadio       = require("radios/disk"),
+        SubtitlesRadio  = require("radios/subtitles"),
+        DiskView        = require("views/disk"),
         DiskController;
 
     DiskController = Marionette.Object.extend({
@@ -13,11 +14,13 @@ define("controllers/disk", function(require) {
         },
         initialize: function() {
             var diskRadio = new DiskRadio();
+            this.diskChannel = Radio.channel("Disk");
             
-            this.channel = Radio.channel("Disk");
+            var subtitlesRadio = new SubtitlesRadio();
+            this.subtitlesChannel = Radio.channel("Subtitles");
         },
         index: function() {
-            $.when(this.channel.request('getDiskItems'))
+            $.when(this.diskChannel.request('getDiskItems'))
                 .then(function(DiskItemsCollection){
                     var view = new DiskView({
                         collection : DiskItemsCollection
