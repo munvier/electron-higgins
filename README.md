@@ -28,3 +28,6 @@ puis, revenir au dossier racine du repo, et ensuite,
 
 ## DevLog
     23/10 Structure en place, accueil dégueu mais vue fichiers fonctionnelle
+          Côté Proxy : 
+	          - Route de listage d'un répertoire fonctionnelle
+	          - Route de parsage d'addic7ed pour un épisode d'une saison d'une série fonctionnelle 
