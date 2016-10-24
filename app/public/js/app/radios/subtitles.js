@@ -13,8 +13,6 @@ define("radios/subtitles", function(require) {
         },
         
         getSubtitles: function(options) {
-            console.log(options);
-            
             var subtitlesCollection     = new SubtitlesCollection(),
                 deferred                = new $.Deferred(),
                 defaults                = {
