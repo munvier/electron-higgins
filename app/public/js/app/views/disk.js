@@ -10,12 +10,14 @@ define("views/disk", function (require) {
         ui: {
             'breadcrumb': 'span.folderName',
             'folder': 'a.folder',
+            'textFilter': 'input.textFilter',
             'videoFilter': 'div.videoFilter'
         },
         events: {
             'click @ui.breadcrumb': 'setPathAndRefreshCollection',
             'click @ui.folder': 'setPathAndRefreshCollection',
-            'click @ui.videoFilter': 'handleVideoFilter'
+            'click @ui.videoFilter': 'handleVideoFilter',
+            'keyup @ui.textFilter': 'setFilterAndRefreshCollection'
         },
         initialize: function () {
             this.uiChannel = Radio.channel('ui:disk');
@@ -23,6 +25,27 @@ define("views/disk", function (require) {
             this.uiChannel.on('setPath', this.setPathAndRefreshCollection.bind(this));
             this.data = {};
             this.path = this.collection.getPath();
+            this.filterText = "";
+        },
+        setFilterAndRefreshCollection: function (e) {
+            var $input = $(e.currentTarget),
+                filterText = $input.val().toLowerCase(),
+                caretPosition = e.currentTarget.value.slice(0, e.currentTarget.selectionStart).length;
+
+            if (this.filterText != filterText) {
+                this.filterText = filterText;
+
+                this.collection.each(function (model) {
+                    var name = model.get('file').toLowerCase();
+
+                    model.set('hidden', (name.indexOf(filterText) === -1));
+                });
+                
+                this.render();
+                
+                this.getUI('textFilter').focus();
+                this.getUI('textFilter')[0].setSelectionRange(caretPosition, caretPosition);
+            }
         },
         handleVideoFilter: function () {
             if (this.isfilterVideoActive) {
@@ -35,11 +58,9 @@ define("views/disk", function (require) {
             this.isfilterVideoActive = true;
             this.collection.each(function (model) {
                 var regex = new RegExp('\.(avi|wmv|flv|mkv|mpg|mp4)$'),
-                        name = model.get('file').toLowerCase();
+                    name = model.get('file').toLowerCase();
 
-                if (!regex.test(name)) {
-                    model.set('hidden', true);
-                }
+                model.set('hidden', !regex.test(name));
             });
             this.render();
         },
@@ -52,8 +73,8 @@ define("views/disk", function (require) {
         },
         setPathAndRefreshCollection: function (e) {
             var that = this,
-                    $link = $(e.currentTarget),
-                    path = $link.data('path');
+                $link = $(e.currentTarget),
+                path = $link.data('path');
 
             e.preventDefault();
 
@@ -70,10 +91,11 @@ define("views/disk", function (require) {
         },
         serializeData: function () {
             var that = this,
-                    fullPath = "";
+                fullPath = "";
 
             this.data.isfilterVideoActive = this.isfilterVideoActive;
-
+            this.data.filterText = this.filterText;
+            
             this.data.path = this.path;
             this.data.explodedPath = [];
 

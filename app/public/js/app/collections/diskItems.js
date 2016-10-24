@@ -2,9 +2,10 @@ define("collections/diskItems", function (require) {
     "use strict";
     var Backbone = require("backbone"),
             Config = require("config"),
-            diskItems = require("models/diskItem"),
+            diskItem = require("models/diskItem"),
             diskItems;
     diskItems = Backbone.Collection.extend({
+        model: diskItem,
         url: function () {
             return Config.file_api_endpoint + encodeURIComponent(this.path)
         },

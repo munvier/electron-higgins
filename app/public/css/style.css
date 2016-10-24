@@ -201,7 +201,8 @@ body {
     opacity: 1;
 }
 .filemanager .data {
-    margin-top: 60px;
+    margin: 20px 0;
+    padding:0;
     z-index: -3;
 }
 .filemanager .data.animated {
@@ -215,7 +216,6 @@ body {
     display: inline-block;
     height: 50px;
     list-style-type: none;
-    margin: 0 5px;
     overflow: hidden;
     padding: 5px;
     position: relative;
@@ -243,7 +243,23 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: calc(100% - 65px);
+    width: calc(100% - 350px);
+}
+.filemanager .data li .info{
+    color: #9b9ba1;
+    float: right;
+    font-size: 14px;
+    line-height: 21px;
+    padding: 5px 20px 5px 0;
+    height: 50px;
+    text-align: right;
+}
+.filemanager .data li .episode-info{
+    text-transform: uppercase;
+}
+.filemanager .data li .info strong{
+    color:white;
+    font-weight:normal;
 }
 .filemanager .data li .details {
     color: #b6c1c9;

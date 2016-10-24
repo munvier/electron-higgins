@@ -1,5 +1,7 @@
-<div class="filemanager">
-
+l<div class="filemanager">
+    <div class="filter form-group">
+        <input type="text" class="form-control textFilter" value="{{data.filterText}}" placeholder="Filtrer..." />
+    </div>
     <div class="tools clearfix">
         <div class="breadcrumbs">
             {{#each data.explodedPath}}
@@ -24,9 +26,19 @@
         {{#each items}}
         {{#unless this.hidden}}
         <li class="{{#if this.is_dir}}folder{{else}}file{{/if}}">
-            <a data-path="{{this.fPath}}" title="{{this.file}}" class="{{#if this.is_dir}}folder{{else}}file{{/if}}">
+            <a data-cid="{{this.cid}}" data-path="{{this.fPath}}" title="{{this.file}}" class="{{#if this.is_dir}}folder{{else}}file{{/if}}">
                 <span class="icon {{#if this.is_dir}}folder{{else}}file{{/if}} full"></span>
                 <span class="name">{{this.file}}</span>
+                {{#if this.serie}}
+                <div class="info">
+                    <div class="show-name">
+                        <strong>{{this.serie}}</strong>
+                    </div>
+                    <div class="episode-info">
+                        S<strong>{{pad this.season 2 "0"}}</strong>E<strong>{{pad this.episode 2 "0"}}</strong>
+                    </div>
+                </div>
+                {{/if}}
             </a>
         </li>
         {{/unless}}
