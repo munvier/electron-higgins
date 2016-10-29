@@ -39,7 +39,11 @@ define("models/diskItem", function (require) {
                 this.set(file);
             }
         },
-
+        
+        isTvShow : function () {
+            return this.get('showname') && this.get('season') && this.get('episode');
+        },
+        
         toJSON : function () {
             return JSON.parse(JSON.stringify(this.attributes));
         }

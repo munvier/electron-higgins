@@ -25,7 +25,7 @@ l<div class="filemanager">
     <ul class="data">
         {{#each items}}
         {{#unless this.hidden}}
-        <li class="{{#if this.is_dir}}folder{{else}}file{{/if}}">
+        <li class="{{#if this.is_dir}}folder{{else}}file{{/if}} {{#if this.has_subtitle}}has-subtitle{{/if}}">
             <a {{#if this.is_file}}data-cid="{{this.cid}}"{{/if}}
                 data-path="{{this.fPath}}" title="{{this.file}}" class="{{#if this.is_dir}}folder{{else}}file{{/if}}">
                 <span class="icon {{#if this.is_dir}}folder{{else}}file{{/if}} full"></span>

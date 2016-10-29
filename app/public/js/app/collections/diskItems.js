@@ -24,6 +24,29 @@ define("collections/diskItems", function (require) {
         
         getPath: function () {
             return this.path;
+        },
+        
+        checkSubtitles : function () {
+            var that = this;
+    
+            this.forEach(function(model) {
+                var filename                        = model.get('file'),
+                    currentFilenameWithoutExtension = filename.toLowerCase().substring(0, filename.length - 3),
+                    filtered;
+
+                if (model.isTvShow()) {
+                    filtered = that.filter(function(diskItem){
+                        var diskItemFilenameWithoutExtension    = diskItem.get('file').toLowerCase().substring(0, diskItem.get('file').length - 3),
+                            diskItemFilenameExtension           = diskItem.get('file').toLowerCase().substring(filename.length - 3);
+                        
+                        return (diskItemFilenameExtension === "srt" && diskItemFilenameWithoutExtension == currentFilenameWithoutExtension);
+                    });
+                    
+                    if (filtered.length) {
+                        model.set('has_subtitle', true);
+                    }
+                }
+            });
         }
     });
     return diskItems;

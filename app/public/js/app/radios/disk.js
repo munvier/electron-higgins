@@ -18,6 +18,7 @@ define("radios/disk", function(require) {
                 defaults                = {
                     wait: true,
                     success : function (collection, response) {
+                        collection.checkSubtitles();
                         deferred.resolve(collection, response);
                     },
                     error : function (collection, response) {

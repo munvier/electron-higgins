@@ -225,6 +225,9 @@ body {
 .filemanager .data li a:hover {
     background-color: #42424e;
 }
+.filemanager .data li.has-subtitle {
+    background-color: green;
+}
 .filemanager .data li a {
     border-radius: 3px;
     display: block;
