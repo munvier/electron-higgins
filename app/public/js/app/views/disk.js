@@ -8,38 +8,37 @@ define("views/disk", function (require) {
     DiskView = Marionette.View.extend({
         template: DiskTemplate,
         ui: {
-            'breadcrumb': 'span.folderName',
-            'folder': 'a.folder',
-            'file': 'a.file',
-            'textFilter': 'input.textFilter',
-            'videoFilter': 'div.videoFilter'
+            'breadcrumb'    : 'span.folderName',
+            'folder'        : 'a.folder',
+            'file'          : 'a.file',
+            'textFilter'    : 'input.textFilter',
+            'videoFilter'   : 'div.videoFilter'
         },
         events: {
-            'click @ui.breadcrumb': 'setPathAndRefreshCollection',
-            'click @ui.folder': 'setPathAndRefreshCollection',
-            'click @ui.videoFilter': 'handleVideoFilter',
-            'click @ui.file' : 'getSubtitlesVersions',
-            'keyup @ui.textFilter': 'setFilterAndRefreshCollection'
+            'click @ui.breadcrumb'  : 'setPathAndRefreshCollection',
+            'click @ui.folder'      : 'setPathAndRefreshCollection',
+            'click @ui.videoFilter' : 'handleVideoFilter',
+            'click @ui.file'        : 'getSubtitlesVersions',
+            'keyup @ui.textFilter'  : 'setFilterAndRefreshCollection'
         },
         initialize: function () {
-            this.data = {};
-            this.path = this.collection.getPath();
+            this.data       = {};
+            this.path       = this.collection.getPath();
             this.filterText = "";
             
             this.initChannels();
         },
         initChannels: function () {
-            this.diskChannel = Radio.channel("Disk");
+            this.diskChannel        = Radio.channel("Disk");
+            this.subtitlesChannel   = Radio.channel("Subtitles");
+            this.uiChannel          = Radio.channel('ui:disk');
             
-            this.subtitlesChannel = Radio.channel("Subtitles");
-            
-            this.uiChannel = Radio.channel('ui:disk');
             this.uiChannel.on('setPath', this.setPathAndRefreshCollection.bind(this));
         },
         setFilterAndRefreshCollection: function (e) {
-            var $input = $(e.currentTarget),
-                filterText = $input.val().toLowerCase(),
-                caretPosition = e.currentTarget.value.slice(0, e.currentTarget.selectionStart).length;
+            var $input          = $(e.currentTarget),
+                filterText      = $input.val().toLowerCase(),
+                caretPosition   = e.currentTarget.value.slice(0, e.currentTarget.selectionStart).length;
 
             if (this.filterText != filterText) {
                 this.filterText = filterText;
@@ -65,25 +64,29 @@ define("views/disk", function (require) {
         },
         activateVideoFilter: function () {
             this.isfilterVideoActive = true;
+            
             this.collection.each(function (model) {
-                var regex = new RegExp('\.(avi|wmv|flv|mkv|mpg|mp4)$'),
-                    name = model.get('file').toLowerCase();
+                var regex   = new RegExp('\.(avi|wmv|flv|mkv|mpg|mp4)$'),
+                    name    = model.get('file').toLowerCase();
 
                 model.set('hidden', !regex.test(name));
             });
+            
             this.render();
         },
         deactivateVideoFilter: function () {
             this.isfilterVideoActive = false;
+            
             this.collection.each(function (model) {
                 model.set('hidden', false);
             });
+            
             this.render();
         },
         setPathAndRefreshCollection: function (e) {
-            var that = this,
-                $link = $(e.currentTarget),
-                path = $link.data('path');
+            var that    = this,
+                $link   = $(e.currentTarget),
+                path    = $link.data('path');
 
             e.preventDefault();
 
@@ -95,16 +98,16 @@ define("views/disk", function (require) {
                 .request('getDiskItems', path)
                 .then(function (DiskItemsCollection) {
                     that.collection = DiskItemsCollection;
-                    that.path = path;
+                    that.path       = path;
                     that.render();
                 });
         },
         getSubtitlesVersions : function (e) {
             e.preventDefault();
             
-            var that = this,
-                $file = $(e.currentTarget),
-                cid = $file.data('cid'),
+            var that    = this,
+                $file   = $(e.currentTarget),
+                cid     = $file.data('cid'),
                 file;
         
             if (!cid) {
@@ -115,32 +118,35 @@ define("views/disk", function (require) {
             
             this.subtitlesChannel
                 .request('getSubtitles', {
-                    showname : file.get('showname'),
-                    season : file.get('season'),
-                    episode : file.get('episode')
+                    showname    : file.get('showname'),
+                    season      : file.get('season'),
+                    episode     : file.get('episode')
                 }).then(function(subtitlesCollection){
+                    that.isfilterVideoActive    = false;
+                    that.filterText             = "";
+                    
                     file.set('subtitles', subtitlesCollection.toJSON());
                     that.render();
                 });
         },
         
         serializeData : function () {
-            var that = this,
-                fullPath = "";
+            var that        = this,
+                fullPath    = "";
 
-            this.data.isfilterVideoActive = this.isfilterVideoActive;
-            this.data.filterText = this.filterText;
+            this.data.isfilterVideoActive   = this.isfilterVideoActive;
+            this.data.filterText            = this.filterText;
             
-            this.data.path = this.path;
-            this.data.explodedPath = [];
+            this.data.path                  = this.path;
+            this.data.explodedPath          = [];
             
             this.data.path.split('\\').forEach(function (value) {
                 if (value) {
                     fullPath += value + "\\";
 
                     that.data.explodedPath.push({
-                        name: value + "\\",
-                        path: fullPath
+                        name : value + "\\",
+                        path : fullPath
                     });
                 }
             });
