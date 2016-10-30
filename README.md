@@ -30,8 +30,10 @@ puis, revenir au dossier racine du repo, et ensuite,
     23/10 - Structure en place, accueil dégueu mais vue fichiers fonctionnelle
           - Côté Proxy : 
 	          - Route de listage d'un répertoire fonctionnelle
-	          - Route de parsage d'addic7ed pour un épisode d'une saison d'une série fonctionnelle 
+	          - Route de parsage d'addic7ed pour un épisode d'une saison 
+	            d'une série fonctionnelle 
 	24/10 - Route de gettage des versions d'un sous titre d'un épisode d'une saison
 	        d'une série OK
           - Affichage des versions OK
           - En avant Guimgamp pour le download ...
+    29/10 - Affichage visuel de la présence d'un sous titre pour une série
