@@ -1,16 +1,18 @@
 define("views/disk", function (require) {
     "use strict";
-    var _ = require("underscore"),
-            Marionette = require("marionette"),
-            Radio = require("backbone.radio"),
-            DiskTemplate = require("hbs!templates/disk"),
-            DiskView;
+    var _               = require("underscore"),
+        Marionette      = require("marionette"),
+        Radio           = require("backbone.radio"),
+        DiskTemplate    = require("hbs!templates/disk"),
+        DiskView;
+        
     DiskView = Marionette.View.extend({
         template: DiskTemplate,
         ui: {
             'breadcrumb'    : 'span.folderName',
             'folder'        : 'a.folder',
             'file'          : 'a.file',
+            'subtitle'      : 'a.subtitle',
             'textFilter'    : 'input.textFilter',
             'videoFilter'   : 'div.videoFilter'
         },
@@ -19,6 +21,7 @@ define("views/disk", function (require) {
             'click @ui.folder'      : 'setPathAndRefreshCollection',
             'click @ui.videoFilter' : 'handleVideoFilter',
             'click @ui.file'        : 'getSubtitlesVersions',
+            'click @ui.subtitle'    : 'downloadSubtitle',
             'keyup @ui.textFilter'  : 'setFilterAndRefreshCollection'
         },
         initialize: function () {
@@ -29,6 +32,8 @@ define("views/disk", function (require) {
             this.initChannels();
         },
         initChannels: function () {
+            Backbone.Radio.DEBUG = true;
+
             this.diskChannel        = Radio.channel("Disk");
             this.subtitlesChannel   = Radio.channel("Subtitles");
             this.uiChannel          = Radio.channel('ui:disk');
@@ -84,8 +89,7 @@ define("views/disk", function (require) {
             this.render();
         },
         setPathAndRefreshCollection: function (e) {
-            var that    = this,
-                $link   = $(e.currentTarget),
+            var $link   = $(e.currentTarget),
                 path    = $link.data('path');
 
             e.preventDefault();
@@ -93,12 +97,18 @@ define("views/disk", function (require) {
             if (!path) {
                 return;
             }
-
+            
+            this.path = path;
+            
+            this.requestCollection();
+        },
+        requestCollection : function () {
+            var that    = this;
+            
             this.diskChannel
-                .request('getDiskItems', path)
+                .request('getDiskItems', this.path)
                 .then(function (DiskItemsCollection) {
                     that.collection = DiskItemsCollection;
-                    that.path       = path;
                     that.render();
                 });
         },
@@ -124,18 +134,41 @@ define("views/disk", function (require) {
                 }).then(function(subtitlesCollection){
                     that.isfilterVideoActive    = false;
                     that.filterText             = "";
-                    
-                    file.set('subtitles', subtitlesCollection.toJSON());
+                    file.set('subtitles', subtitlesCollection);
                     that.render();
                 });
         },
+        downloadSubtitle : function (e) {
+            e.preventDefault();
+            
+            var that        = this,
+                $link       = $(e.currentTarget),
+                fileCid     = $link.data('file-cid'),
+                subtitleCid = $link.data('cid'),
+                file        = this.collection.get(fileCid),
+                subtitle    = file.get('subtitles').get(subtitleCid),
+                destination = file.get('fPath').substring(0, file.get('fPath').length - 3) + "srt",
+                source      = subtitle.get('link');
         
+            this.subtitlesChannel.request('getSubtitle', {
+                model   : subtitle,
+                data    : {
+                    referer     : subtitle.get('referer'),
+                    source      : source,
+                    destination : destination
+                }
+            }).then(function(){
+                that.requestCollection();
+            });    
+        },
         serializeData : function () {
             var that        = this,
                 fullPath    = "";
 
             this.data.isfilterVideoActive   = this.isfilterVideoActive;
             this.data.filterText            = this.filterText;
+            
+            this.data.collection            = this.collection.toJSON();
             
             this.data.path                  = this.path;
             this.data.explodedPath          = [];

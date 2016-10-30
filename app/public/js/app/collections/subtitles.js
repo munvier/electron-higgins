@@ -1,11 +1,13 @@
 define("collections/subtitles", function (require) {
     "use strict";
-    var Backbone = require("backbone"),
-        Config = require("config"),
-        Subtitle = require("models/subtitle"),
-        diskItems;
+    var Backbone    = require("backbone"),
+        Config      = require("config"),
+        Subtitle    = require("models/subtitle"),
+        subtitles;
         
-    diskItems = Backbone.Collection.extend({
+    subtitles = Backbone.Collection.extend({
+        model: Subtitle,
+        
         url: function () {
             return Config.file_api_endpoint 
                     + "/subtitles/" 
@@ -28,5 +30,5 @@ define("collections/subtitles", function (require) {
         },
         
     });
-    return diskItems;
+    return subtitles;
 });

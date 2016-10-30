@@ -1,7 +1,8 @@
 define("radios/subtitles", function(require) {
     "use strict";
 
-    var Marionette          = require("marionette"),
+    var _                   = require("underscore"),
+        Marionette          = require("marionette"),
         SubtitlesCollection = require("collections/subtitles"),
         SubtitlesRadio;
 
@@ -9,7 +10,8 @@ define("radios/subtitles", function(require) {
         channelName : 'Subtitles',
 
         radioRequests: {
-            'getSubtitles': 'getSubtitles',
+            'getSubtitles'  : 'getSubtitles',
+            'getSubtitle'   : 'getSubtitle',
         },
         
         getSubtitles: function(options) {
@@ -35,10 +37,29 @@ define("radios/subtitles", function(require) {
 
             return deferred.promise();
         },
-
-            toJSON : function () {
-                return JSON.parse(JSON.stringify(this.attributes));
+        
+        getSubtitle: function(options) {
+            var deferred                = new $.Deferred(),
+                defaults                = {
+                    wait: true,
+                    success : function (model, response) {
+                        deferred.resolve(model, response);
+                    },
+                    error : function (model, response) {
+                        deferred.resolve(model, response);
+                    }
+                };
+            
+            if (!options.model) {
+                return deferred.reject().promise();
             }
+            
+            options = _.extend(options, defaults);
+            
+            options.model.fetchSubtitleForShow(options);
+
+            return deferred.promise();
+        }
     });
 
     return SubtitlesRadio;

@@ -1,10 +1,13 @@
 define("models/diskItem", function (require) {
     "use strict";
-    var Backbone = require("backbone"),
-        Config = require("config"),
+    var _           = require("underscore"),
+        Backbone    = require("backbone"),
+        Config      = require("config"),
         diskItem;
         
     diskItem = Backbone.Model.extend({
+        urlRoot: "Config.file_api_endpoint",
+        
         initialize: function () {
             this.checkIfFileIsTvShow();
         },
@@ -45,7 +48,16 @@ define("models/diskItem", function (require) {
         },
         
         toJSON : function () {
-            return JSON.parse(JSON.stringify(this.attributes));
+            if (this._isSerializing) {
+                return this.id || this.cid;
+            }
+            this._isSerializing = true;
+            var json = _.clone(this.attributes);
+            _.each(json, function(value, name) {
+                _.isFunction((value || "").toJSON) && (json[name] = value.toJSON());
+            });
+            this._isSerializing = false;
+            return json;
         }
     });
     

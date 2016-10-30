@@ -1,8 +1,8 @@
 define("collections/diskItems", function (require) {
     "use strict";
-    var Backbone = require("backbone"),
-        Config = require("config"),
-        diskItem = require("models/diskItem"),
+    var Backbone    = require("backbone"),
+        Config      = require("config"),
+        diskItem    = require("models/diskItem"),
         diskItems;
         
     diskItems = Backbone.Collection.extend({
@@ -47,7 +47,11 @@ define("collections/diskItems", function (require) {
                     }
                 }
             });
-        }
+        },
+        
+        toJSON: function(options) {
+            return this.map(function(model) { return model.toJSON(options); });
+        },
     });
     return diskItems;
 });

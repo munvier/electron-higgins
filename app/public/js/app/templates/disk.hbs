@@ -23,7 +23,7 @@ l<div class="filemanager">
     </div>
 
     <ul class="data">
-        {{#each items}}
+        {{#each data.collection}}
         {{#unless this.hidden}}
         <li class="{{#if this.is_dir}}folder{{else}}file{{/if}} {{#if this.has_subtitle}}has-subtitle{{/if}}">
             <a {{#if this.is_file}}data-cid="{{this.cid}}"{{/if}}
@@ -46,7 +46,7 @@ l<div class="filemanager">
             <ul class="subtitles">
                 {{#each this.subtitles}}
                 <li>
-                    <a class="subtitle clearfix">
+                    <a class="subtitle clearfix" {{#if ../../this.is_file}}data-file-cid="{{../../this.cid}}"{{/if}} data-cid="{{this.cid}}">
                         <div class="pull-left">{{this.version}}</div>
                         <div class="pull-right"><small>{{this.help}}</small></div>
                     </a>
