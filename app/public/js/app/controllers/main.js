@@ -1,10 +1,11 @@
-define("controllers/main", function(require) {
+define([
+    "marionette",
+    "backbone.radio",
+    "views/main"
+], function(Marionette, Radio, MainView) {
     "use strict";
 
-    var Marionette  = require("marionette"),
-        Radio       = require("backbone.radio"),
-        MainView    = require("views/main"),
-        MainController;
+    var MainController;
 
     MainController = Marionette.Object.extend({
         routes: {

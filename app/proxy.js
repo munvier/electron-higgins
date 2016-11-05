@@ -1,10 +1,10 @@
-var koa = require('koa');
-var path = require('path');
-var tracer = require('tracer');
-var mount = require('koa-mount');
-var morgan = require('koa-morgan');
-var koaStatic = require('koa-static');
-var koaCors = require('koa-cors');
+var koa         = require('koa');
+var path        = require('path');
+var tracer      = require('tracer');
+var mount       = require('koa-mount');
+var morgan      = require('koa-morgan');
+var koaStatic   = require('koa-static');
+var koaCors     = require('koa-cors');
 
 module.exports = {
     start: function () {
@@ -73,6 +73,5 @@ module.exports = {
         app.use(koaStatic(path.join(__dirname,'./public/')));
 
         startServer(app, +argv.port);
-
     }
 }

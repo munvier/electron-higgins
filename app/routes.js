@@ -2,9 +2,10 @@ var fs          = require('co-fs');
 var path        = require('path');
 var views       = require('co-views');
 var origFs      = require('fs');
+var Finder      = require('fs-finder');
 var koaRouter   = require('koa-router');
 var bodyParser  = require('koa-bodyparser');
-var koaBBody     = require('koa-better-body');
+var koaBBody    = require('koa-better-body');
 var formParser  = require('co-busboy');
 var http        = require('http');
 
@@ -26,6 +27,14 @@ router.get('/api/getFilesListbyPath/(.*)', Tools.loadRealPath, Tools.checkPathEx
     else {
         this.body = origFs.createReadStream(this.request.fPath);
     }
+});
+
+router.get('/api/getRecursiveMoviesFilesListbyPath/(.*)', Tools.loadRealPath, Tools.checkPathExists, function * () {
+    var filesList = yield Finder.from(this.request.fPath).findFiles('*.<(avi|mkv|mp4|mpg|mpeg|AVI|MKV|MP4|MPG|MPEG)>');
+    
+    var test = FileManager.listFiles(filesList);
+
+    this.body = test;
 });
 
 router.get('/api/subtitles/(.*)/(.*)/(.*)/(.*)', function * (next) {

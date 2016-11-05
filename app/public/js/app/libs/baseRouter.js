@@ -1,10 +1,11 @@
-define("libs/baseRouter", function(require) {
+define([
+    "backbone",
+    "marionette",
+    "underscore"
+], function(Backbone, Marionette, _) {
     "use strict";
 
-    var Backbone    = require("backbone"),
-        Marionette  = require("marionette"),
-        _           = require("underscore"),
-        BaseRouter;
+    var BaseRouter;
 
     BaseRouter = Marionette.AppRouter.extend({
         currentRoute: {},

@@ -1,10 +1,12 @@
-define("views/disk", function (require) {
+define([
+    "underscore",
+    "marionette",
+    "backbone.radio",
+    "hbs!templates/disk"
+], function (_, Marionette, Radio, DiskTemplate) {
     "use strict";
-    var _               = require("underscore"),
-        Marionette      = require("marionette"),
-        Radio           = require("backbone.radio"),
-        DiskTemplate    = require("hbs!templates/disk"),
-        DiskView;
+    
+    var DiskView;
         
     DiskView = Marionette.View.extend({
         template: DiskTemplate,
@@ -14,15 +16,17 @@ define("views/disk", function (require) {
             'file'          : 'a.file',
             'subtitle'      : 'a.subtitle',
             'textFilter'    : 'input.textFilter',
-            'videoFilter'   : 'div.videoFilter'
+            'videoFilter'   : 'div.videoFilter',
+            'wizardFilter'   : 'div.wizardFilter'
         },
         events: {
-            'click @ui.breadcrumb'  : 'setPathAndRefreshCollection',
-            'click @ui.folder'      : 'setPathAndRefreshCollection',
-            'click @ui.videoFilter' : 'handleVideoFilter',
-            'click @ui.file'        : 'getSubtitlesVersions',
-            'click @ui.subtitle'    : 'downloadSubtitle',
-            'keyup @ui.textFilter'  : 'setFilterAndRefreshCollection'
+            'click @ui.breadcrumb'      : 'setPathAndRefreshCollection',
+            'click @ui.folder'          : 'setPathAndRefreshCollection',
+            'click @ui.videoFilter'     : 'handleVideoFilter',
+            'click @ui.wizardFilter'    : 'handleWizardFilter',
+            'click @ui.file'            : 'getSubtitlesVersions',
+            'click @ui.subtitle'        : 'downloadSubtitle',
+            'keyup @ui.textFilter'      : 'setFilterAndRefreshCollection'
         },
         initialize: function () {
             this.data       = {};
@@ -61,14 +65,14 @@ define("views/disk", function (require) {
             }
         },
         handleVideoFilter: function () {
-            if (this.isfilterVideoActive) {
+            if (this.isVideoFilterActive) {
                 this.deactivateVideoFilter();
             } else {
                 this.activateVideoFilter();
             }
         },
         activateVideoFilter: function () {
-            this.isfilterVideoActive = true;
+            this.isVideoFilterActive = true;
             
             this.collection.each(function (model) {
                 var regex   = new RegExp('\.(avi|wmv|flv|mkv|mpg|mp4)$'),
@@ -80,13 +84,32 @@ define("views/disk", function (require) {
             this.render();
         },
         deactivateVideoFilter: function () {
-            this.isfilterVideoActive = false;
+            this.isVideoFilterActive = false;
             
             this.collection.each(function (model) {
                 model.set('hidden', false);
             });
             
             this.render();
+        },
+        handleWizardFilter: function () {
+            if (this.isWizardFilterActive) {
+                this.deactivateWizardFilter();
+            } else {
+                this.activateWizardFilter();
+            }
+        },
+        activateWizardFilter: function () {
+            this.isWizardFilterActive = true;
+            
+            this.collectionRequestName = 'getRecursiveMoviesFilesListbyPath';
+            this.requestCollection();
+        },
+        deactivateWizardFilter: function () {
+            this.isWizardFilterActive = false;
+            
+            this.collectionRequestName = 'getDiskItems';
+            this.requestCollection();
         },
         setPathAndRefreshCollection: function (e) {
             var $link   = $(e.currentTarget),
@@ -100,13 +123,14 @@ define("views/disk", function (require) {
             
             this.path = path;
             
+            this.collectionRequestName = 'getDiskItems';
             this.requestCollection();
         },
         requestCollection : function () {
             var that    = this;
             
             this.diskChannel
-                .request('getDiskItems', this.path)
+                .request(this.collectionRequestName, this.path)
                 .then(function (DiskItemsCollection) {
                     that.collection = DiskItemsCollection;
                     that.render();
@@ -132,8 +156,7 @@ define("views/disk", function (require) {
                     season      : file.get('season'),
                     episode     : file.get('episode')
                 }).then(function(subtitlesCollection){
-                    that.isfilterVideoActive    = false;
-                    that.filterText             = "";
+                    that.filterText = "";
                     file.set('subtitles', subtitlesCollection);
                     that.render();
                 });
@@ -165,7 +188,9 @@ define("views/disk", function (require) {
             var that        = this,
                 fullPath    = "";
 
-            this.data.isfilterVideoActive   = this.isfilterVideoActive;
+            this.data.isVideoFilterActive   = this.isVideoFilterActive;
+            this.data.isWizardFilterActive  = this.isWizardFilterActive;
+            
             this.data.filterText            = this.filterText;
             
             this.data.collection            = this.collection.toJSON();

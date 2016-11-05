@@ -1,11 +1,12 @@
-define("libs/router", function(require) {
+define([
+    "jquery",
+    "libs/baseRouter",
+    "controllers/main",
+    "controllers/disk"
+], function($, BaseRouter, MainController, DiskController) {
     "use strict";
 
-    var $                       = require("jquery"),
-        BaseRouter              = require("libs/baseRouter"),
-        MainController          = require("controllers/main"),
-        DiskController          = require("controllers/disk"),
-        controllers = {
+    var controllers = {
             Main: MainController,
             Disk: DiskController,
         };

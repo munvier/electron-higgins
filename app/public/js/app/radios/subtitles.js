@@ -1,10 +1,11 @@
-define("radios/subtitles", function(require) {
+define([
+    "underscore",
+    "marionette",
+    "collections/subtitles"
+], function(_, Marionette, SubtitlesCollection) {
     "use strict";
 
-    var _                   = require("underscore"),
-        Marionette          = require("marionette"),
-        SubtitlesCollection = require("collections/subtitles"),
-        SubtitlesRadio;
+    var SubtitlesRadio;
 
     SubtitlesRadio = Marionette.Object.extend({
         channelName : 'Subtitles',

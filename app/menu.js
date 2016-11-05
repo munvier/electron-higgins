@@ -1,10 +1,10 @@
 //Electron
-const electron = require('electron');
+const electron      = require('electron');
 const BrowserWindow = electron.BrowserWindow;
-const app = electron.app;
-const app_name = app.getName();
-const app_version = app.getVersion();
-const app_menu = electron.Menu;
+const app           = electron.app;
+const app_name      = app.getName();
+const app_version   = app.getVersion();
+const app_menu      = electron.Menu;
 
 var template_win = [{
     label: 'File',

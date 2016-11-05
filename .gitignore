@@ -37,3 +37,6 @@ dist
 
 #netbeans
 nbproject
+
+#build
+Higgins-win32-x64

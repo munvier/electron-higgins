@@ -1,4 +1,4 @@
-define("config", function(require) {
+define(function() {
     "use strict";
 
     var config;

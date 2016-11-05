@@ -1,4 +1,4 @@
-require.config({
+requirejs.config({
     baseUrl: "js/app",
     paths: {
         backbone: "/bower_components/backbone/backbone-min",
@@ -9,6 +9,7 @@ require.config({
         marionette: "/bower_components/backbone.marionette/lib/backbone.marionette.min",
         text: "/bower_components/requirejs-text/text",
         underscore: "/bower_components/underscore/underscore-min",
+        app: "/js/app/app",
         config: "/js/app/config/config"
     },
     shim: {
@@ -28,10 +29,10 @@ require.config({
     }
 });
 
-define(function(require) {
+define(['app'], function() {
     "use strict";
 
-    var App = require("app");
-
+    var App = requirejs('app');
+    
     new App();
 });

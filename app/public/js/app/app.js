@@ -1,16 +1,15 @@
-define("app", function(require) {
+define([
+    "marionette",
+    "backbone.radio",
+    "libs/router"
+],function(Marionette, Radio, Router) {
     "use strict";
 
-    var Marionette      = require("marionette"),
-        Radio           = require("backbone.radio"),
-        Router          = require("libs/router"),
-        MainController  = require("controllers/main"),
-        DiskController  = require("controllers/disk"),
-        app;
+    var app;
 
     app = Marionette.Application.extend({
         region: "#main",
-        
+
         initialize: function intialize() {
             Radio.channel("App").reply("region:show", this.showRegion.bind(this));
 

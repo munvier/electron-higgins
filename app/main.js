@@ -1,3 +1,4 @@
+const requirejs = require('requirejs');
 //Electron
 const electron = require('electron');
 const globalShortcut = electron.globalShortcut;
@@ -32,6 +33,8 @@ let isQuitting = false;
 
 // Main Window
 function createMainWindow() {
+    module.paths.push(__dirname+'/node_modules');
+    
     proxy.start();
     
     const lastWindowState = app_config.get('lastWindowState');
@@ -45,8 +48,7 @@ function createMainWindow() {
         resizable: true,
         autoHideMenuBar: true,
         webPreferences: {
-            nodeIntegration: false,
-            plugins: true
+            nodeIntegration: false
         }
     });
     app_view.loadURL('http://localhost:5151');
@@ -77,16 +79,10 @@ app.on('ready', () => {
 
     app_page.on('dom-ready', () => {
 
-        // Global Style Additions
-        app_page.insertCSS(fs.readFileSync(path.join(__dirname, 'app.css'), 'utf8'));
-
         // MacOS ONLY style fixes
         if (process.platform == 'darwin') {
             app_page.insertCSS('');
         }
-
-        // Global Code Additions
-        app_page.executeJavaScript(fs.readFileSync(path.join(__dirname, 'app.js'), 'utf8'));
 
         mainWindow.show();
 

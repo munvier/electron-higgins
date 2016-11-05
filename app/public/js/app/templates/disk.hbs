@@ -16,7 +16,10 @@ l<div class="filemanager">
             {{/each}}
         </div>
         <div class="filters">
-            <div class="videoFilter {{#if data.isfilterVideoActive}}active{{/if}}">
+            <div class="disk-filter wizardFilter {{#if data.isWizardFilterActive}}active{{/if}}">
+                <span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
+            </div>
+            <div class="disk-filter videoFilter {{#if data.isVideoFilterActive}}active{{/if}}">
                 <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
             </div>
         </div>
@@ -25,7 +28,7 @@ l<div class="filemanager">
     <ul class="data">
         {{#each data.collection}}
         {{#unless this.hidden}}
-        <li class="{{#if this.is_dir}}folder{{else}}file{{/if}} {{#if this.has_subtitle}}has-subtitle{{/if}}">
+        <li class="{{#if this.is_dir}}folder{{else}}file{{/if}} {{#if this.has_sub}}has-subtitle{{/if}}">
             <a {{#if this.is_file}}data-cid="{{this.cid}}"{{/if}}
                 data-path="{{this.fPath}}" title="{{this.file}}" class="{{#if this.is_dir}}folder{{else}}file{{/if}}">
                 <span class="icon {{#if this.is_dir}}folder{{else}}file{{/if}} full"></span>

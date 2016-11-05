@@ -1,12 +1,13 @@
-define("controllers/disk", function(require) {
+define([
+    "marionette",
+    "backbone.radio",
+    "radios/disk",
+    "radios/subtitles",
+    "views/disk"
+], function(Marionette, Radio, DiskRadio, SubtitlesRadio, DiskView) {
     "use strict";
 
-    var Marionette      = require("marionette"),
-        Radio           = require("backbone.radio"),
-        DiskRadio       = require("radios/disk"),
-        SubtitlesRadio  = require("radios/subtitles"),
-        DiskView        = require("views/disk"),
-        DiskController;
+    var DiskController;
 
     DiskController = Marionette.Object.extend({
         routes: {

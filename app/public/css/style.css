@@ -167,7 +167,7 @@ body {
     text-align:right;
     width:20%;
 }
-.filemanager .filters .videoFilter{
+.filemanager .filters .disk-filter{
     background-color: #373743;
     color:#23232e;
     border-radius: 3px;
@@ -176,7 +176,7 @@ body {
     padding: 6px 8px;
     text-align:center;
 }
-.filemanager .filters .videoFilter.active{
+.filemanager .filters .disk-filter.active{
     color:#fff;
 }
 .filemanager .breadcrumbs a:link, .breadcrumbs a:visited {

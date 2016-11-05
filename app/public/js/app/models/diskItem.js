@@ -1,9 +1,11 @@
-define("models/diskItem", function (require) {
+define([
+    "underscore",
+    "backbone",
+    "config"
+], function (_, Backbone, Config) {
     "use strict";
-    var _           = require("underscore"),
-        Backbone    = require("backbone"),
-        Config      = require("config"),
-        diskItem;
+    
+    var diskItem;
         
     diskItem = Backbone.Model.extend({
         urlRoot: "Config.file_api_endpoint",

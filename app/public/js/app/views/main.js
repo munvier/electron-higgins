@@ -1,9 +1,10 @@
-define("views/main", function(require) {
+define([
+    "marionette",
+    "hbs!templates/main"
+], function(Marionette, MainTemplate) {
     "use strict";
 
-    var Marionette      = require("marionette"),
-        MainTemplate    = require("hbs!templates/main"),
-        MainView;
+    var MainView;
 
     MainView = Marionette.View.extend({
         template: MainTemplate

@@ -1,8 +1,10 @@
-define("models/subtitle", function (require) {
+define([
+    "config",
+    "backbone"
+], function (Config, Backbone) {
     "use strict";
-    var Config      = require("config"),
-        Backbone    = require("backbone"),
-        subtitle;
+    
+    var subtitle;
         
     subtitle = Backbone.Model.extend({
         fetchSubtitleForShow : function (options) {

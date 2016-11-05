@@ -1,9 +1,11 @@
-define("collections/subtitles", function (require) {
+define([
+    "backbone",
+    "config", 
+    "models/subtitle"
+], function (Backbone, Config, Subtitle) {
     "use strict";
-    var Backbone    = require("backbone"),
-        Config      = require("config"),
-        Subtitle    = require("models/subtitle"),
-        subtitles;
+    
+    var subtitles;
         
     subtitles = Backbone.Collection.extend({
         model: Subtitle,

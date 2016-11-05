@@ -1,15 +1,17 @@
-define("radios/disk", function(require) {
+define([
+    "marionette", 
+    "collections/diskItems"
+], function(Marionette, DiskItemsCollection) {
     "use strict";
 
-    var Marionette          = require("marionette"),
-        DiskItemsCollection = require("collections/diskItems"),
-        DiskRadio;
+    var DiskRadio;
 
     DiskRadio = Marionette.Object.extend({
         channelName : 'Disk',
 
         radioRequests: {
             'getDiskItems': 'getDiskItems',
+            'getRecursiveMoviesFilesListbyPath': 'getRecursiveMoviesFilesListbyPath',
         },
         
         getDiskItems: function(path) {
@@ -18,7 +20,6 @@ define("radios/disk", function(require) {
                 defaults                = {
                     wait: true,
                     success : function (collection, response) {
-                        collection.checkSubtitles();
                         deferred.resolve(collection, response);
                     },
                     error : function (collection, response) {
@@ -31,6 +32,28 @@ define("radios/disk", function(require) {
             }
             
             diskItemsCollection.fetch(defaults);
+
+            return deferred.promise();
+        },
+        
+        getRecursiveMoviesFilesListbyPath: function(path) {
+            var diskItemsCollection     = new DiskItemsCollection(),
+                deferred                = new $.Deferred(),
+                defaults                = {
+                    wait: true,
+                    success : function (collection, response) {
+                        deferred.resolve(collection, response);
+                    },
+                    error : function (collection, response) {
+                        deferred.resolve(collection, response);
+                    }
+                };
+            
+            if (path) {
+                diskItemsCollection.setPath(path);
+            }
+            
+            diskItemsCollection.fetchRecursivelyOnlyMovies(defaults);
 
             return deferred.promise();
         }

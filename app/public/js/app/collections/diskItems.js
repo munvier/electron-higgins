@@ -1,15 +1,25 @@
-define("collections/diskItems", function (require) {
+define([
+    "backbone", 
+    "config",
+    "models/diskItem"
+], function (Backbone, Config, DiskItem) {
     "use strict";
-    var Backbone    = require("backbone"),
-        Config      = require("config"),
-        diskItem    = require("models/diskItem"),
-        diskItems;
+    
+    var diskItems;
         
     diskItems = Backbone.Collection.extend({
-        model: diskItem,
+        model: DiskItem,
         
         url: function () {
             return Config.file_api_endpoint + "/getFilesListbyPath/" + encodeURIComponent(this.path)
+        },
+        
+        fetchRecursivelyOnlyMovies : function (options) {
+            options = options || {};
+            
+            options.url = Config.file_api_endpoint + "/getRecursiveMoviesFilesListbyPath/" + encodeURIComponent(this.path);
+            
+            return this.fetch.call(this, options);
         },
         
         comparator: function (item) {
@@ -24,29 +34,6 @@ define("collections/diskItems", function (require) {
         
         getPath: function () {
             return this.path;
-        },
-        
-        checkSubtitles : function () {
-            var that = this;
-    
-            this.forEach(function(model) {
-                var filename                        = model.get('file'),
-                    currentFilenameWithoutExtension = filename.toLowerCase().substring(0, filename.length - 3),
-                    filtered;
-
-                if (model.isTvShow()) {
-                    filtered = that.filter(function(diskItem){
-                        var diskItemFilenameWithoutExtension    = diskItem.get('file').toLowerCase().substring(0, diskItem.get('file').length - 3),
-                            diskItemFilenameExtension           = diskItem.get('file').toLowerCase().substring(filename.length - 3);
-                        
-                        return (diskItemFilenameExtension === "srt" && diskItemFilenameWithoutExtension == currentFilenameWithoutExtension);
-                    });
-                    
-                    if (filtered.length) {
-                        model.set('has_subtitle', true);
-                    }
-                }
-            });
         },
         
         toJSON: function(options) {
